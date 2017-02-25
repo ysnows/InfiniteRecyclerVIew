@@ -1,0 +1,10 @@
+.gradle/
+.idea/
+app/build/
+app/app.iml
+freeline/
+build/
+gradle/
+freeline.py
+freeline_project_description.json
+MyApplication.iml
