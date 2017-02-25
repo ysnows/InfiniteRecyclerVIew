@@ -1,5 +1,6 @@
 package com.myapplication;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private int mCurrentItemOffset;
     private int total;
     private float screenHalf = 0;
+    private float initDegree = 360f / 200f;//0~200,每段距离要走几度
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,49 +49,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 ArrayList<View> views = getVisibleViews();
-                for (int i = 0; i < views.size(); i++) {
-                    View view = views.get(i);
-//                  view.getLocationInWindow(pos);
-                    float leftDis = view.getLeft();
-                    int right = view.getRight();
 
-                    float rightDis = (screenHalf * 2 - right);
-                    float distance = Math.min(leftDis, rightDis) + 100f;
+//                for (int i = 0; i < views.size(); i++) {
+                View view = views.get(3);
+                float leftDis = view.getLeft();
+                int right = view.getRight();
 
-                    float scale = distance / screenHalf;
+                float rightDis = (screenHalf * 2 - right);
+                float distance = Math.min(leftDis, rightDis) + 100f;
+                float initRate = distance / screenHalf;
+                float scale = Math.abs((1 - initRate) * 0.5f - 1);
 
-                    view.setScaleX(scale);
-                    view.setScaleY(scale);
+                Log.d("MainActivity", "distance:" + distance);
+                float distanceA = distance % 200f;
 
 
-
-//                  Rotate3dAnimation rotate3dAnimation = new Rotate3dAnimation(0, 90, x, pos[1], 400, true);
-//                  view.startAnimation(rotate3dAnimation);
-                }
-//                mCurrentItemOffset += dx;
-//                Log.d("MainActivity", "mCurrentItemOffset:" + mCurrentItemOffset);
-//
-//                int i = mCurrentItemOffset + screenHalf / screenHalf;
-
-//                View next = linearLayoutManager.findViewByPosition(position);
-////                View prev = linearLayoutManager.findViewByPosition(position - 1);
-//
-//                if (next != null) {
-//
+                view.setScaleX(scale);
+                view.setScaleY(scale);
+//                  view.setRotationY(distanceA * initDegree);
 //                }
-//                prev.setScaleX(0.8f);
-//                prev.setScaleY(0.8f);
-
             }
         });
-
-
     }
 
     private ArrayList<View> getVisibleViews() {
@@ -102,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return views;
+
+    }
+
+    public void next(View view) {
+        startActivity(new Intent(this, ScrollViewActivity.class));
+
 
     }
 }
