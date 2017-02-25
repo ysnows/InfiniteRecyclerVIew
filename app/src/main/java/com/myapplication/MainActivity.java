@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private int mCurrentItemOffset;
     private int total;
     private float screenHalf = 0;
-    private float initDegree = 360f / 200f;//0~200,每段距离要走几度
+    private float initDegree = 180f / 200f;//0~200,每段距离要走几度
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,29 +55,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                Log.d("MainActivity", "dx:" + dx);
                 ArrayList<View> views = getVisibleViews();
 
-//                for (int i = 0; i < views.size(); i++) {
-                View view = views.get(3);
-                float leftDis = view.getLeft();
-                int right = view.getRight();
+                for (int i = 0; i < views.size(); i++) {
+                    View view = views.get(i);
+                    float leftDis = view.getLeft();
+                    int right = view.getRight();
 
-                float rightDis = (screenHalf * 2 - right);
-                float distance = Math.min(leftDis, rightDis) + 100f;
-                float initRate = distance / screenHalf;
-                float scale = Math.abs((1 - initRate) * 0.5f - 1);
+                    float rightDis = (screenHalf * 2 - right);
+                    float distance = Math.min(leftDis, rightDis) + 100f;
+                    float initRate = distance / screenHalf;
+                    float scale = Math.abs((1 - initRate) * 0.5f - 1);
 
-                Log.d("MainActivity", "distance:" + distance);
-                float distanceA = distance % 200f;
+                    float distanceA = (distance - screenHalf) % 200f;
+                    float degree = distanceA * initDegree;
 
+                    view.setScaleX(scale);
+                    view.setScaleY(scale);
 
-                view.setScaleX(scale);
-                view.setScaleY(scale);
-//                  view.setRotationY(distanceA * initDegree);
-//                }
+                    if (dx < 0) {
+                        degree = degree - 180f;
+                    }
+                    view.setRotationY(degree);
+                }
             }
         });
     }
+
 
     private ArrayList<View> getVisibleViews() {
         ArrayList<View> views = new ArrayList<>();
