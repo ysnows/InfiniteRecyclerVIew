@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import java.lang.reflect.Field;
 
 public class UiUtils {
-
     static public int getScreenWidthPixels(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
