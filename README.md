@@ -9,10 +9,15 @@
 1、添加LinearSnapHelper
 	``` linearSnapHelper = new LinearSnapHelper();
     	 linearSnapHelper.attachToRecyclerView(recyclerView);```
+
 2、添加滑动监听器
     ``` ysnowsScrollListener = new YsnowsScrollListener(recyclerView);
         recyclerView.addOnScrollListener(ysnowsScrollListener);```
 详细用法见demo
+
+
+### [IOS效果项目](https://github.com/ltebean/LTInfiniteScrollView)
+
 
 ### License
 ```
