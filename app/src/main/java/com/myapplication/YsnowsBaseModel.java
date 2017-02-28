@@ -14,9 +14,18 @@ public class YsnowsBaseModel {
 
     public String[] content = new String[2];
 
+
     public YsnowsBaseModel(int type, String content_1, String content_2) {
         this.type = type;
         this.content[0] = content_1;
         this.content[1] = content_2;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String[] getContent() {
+        return content;
     }
 }

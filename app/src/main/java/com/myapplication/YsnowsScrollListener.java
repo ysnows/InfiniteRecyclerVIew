@@ -72,15 +72,17 @@ public class YsnowsScrollListener extends RecyclerView.OnScrollListener {
                 if (distanceA > viewWidth / 2) {
                     distanceA = viewWidth - distanceA;
                     if (ysnowsBaseModel != null) {
-                        ((TextView) view).setText(ysnowsBaseModel.content[0]);
+                        ((TextView) view).setText(ysnowsBaseModel.getContent()[0]);
                     }
                 } else {
                     if (ysnowsBaseModel != null) {
-                        ((TextView) view).setText(ysnowsBaseModel.content[1]);
+                        ((TextView) view).setText(ysnowsBaseModel.getContent()[1]);
                     }
                 }
                 float degree = distanceA * initDegree;
                 view.setRotationY(degree);
+            } else {
+                view.setRotationY(0);
             }
         }
 

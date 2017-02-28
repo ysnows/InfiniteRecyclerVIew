@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(demoAdapter);
         ArrayList<YsnowsBaseModel> demoModels = new ArrayList<>();
 
+        //生成数据
         demoModels.add(new YsnowsBaseModel(YsnowsBaseModel.TYPE_PLACEHOLDER, "", ""));
         demoModels.add(new YsnowsBaseModel(YsnowsBaseModel.TYPE_PLACEHOLDER, "", ""));
         for (int i = 1; i < 8; i++) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         demoModels.add(new YsnowsBaseModel(YsnowsBaseModel.TYPE_PLACEHOLDER, "", ""));
         demoAdapter.setData(demoModels);
 
+
         //添加LinearSnapHelper
         linearSnapHelper = new LinearSnapHelper();
         linearSnapHelper.attachToRecyclerView(recyclerView);
@@ -63,10 +66,11 @@ public class MainActivity extends AppCompatActivity {
         ysnowsScrollListener.addOnPositionSelectedListener(new YsnowsScrollListener.OnPositionSelectedListener() {
             @Override
             public void onSelected(int pos) {
-//                Toast.makeText(MainActivity.this, "pos:" + pos, Toast.LENGTH_SHORT).show();
+                Log.d("MainActivity", "pos:" + pos);
+
             }
         });
 
-        ysnowsScrollListener.selectPosition(1 + 2);
+        ysnowsScrollListener.selectPosition(4 + 2);
     }
 }

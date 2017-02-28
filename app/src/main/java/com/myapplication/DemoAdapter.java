@@ -36,10 +36,10 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.VH> {
         layoutParams = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
         YsnowsBaseModel demoModel = data.get(position);
 
+        //两边的itemview设置margin
         if (position == 0) {
             layoutParams.setMarginStart((int) (YsnowsScrollListener.viewWidth / 2));
             layoutParams.setMarginEnd(0);
-
         } else if (position == data.size() - 1) {
             layoutParams.setMarginStart(0);
             layoutParams.setMarginEnd((int) (YsnowsScrollListener.viewWidth / 2));
@@ -50,18 +50,18 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.VH> {
 
         holder.itemView.setLayoutParams(layoutParams);
         TextView tv = (TextView) holder.itemView;
-        tv.setRotationY(0);//复用的时候，Y轴旋转初始成0
-        tv.setText(demoModel.content[0]);
+        tv.setText(demoModel.getContent()[0]);
         holder.itemView.setTag(demoModel);
 
-        if (demoModel.type == YsnowsBaseModel.TYPE_FUTURE) {
+        //根据model的type设置背景
+        if (demoModel.getType() == YsnowsBaseModel.TYPE_FUTURE) {
             holder.itemView.setBackgroundResource(R.drawable.cirlce);
-        } else if (demoModel.type == YsnowsBaseModel.TYPE_PLACEHOLDER) {
+        } else if (demoModel.getType() == YsnowsBaseModel.TYPE_PLACEHOLDER) {
             tv.setText("");
             holder.itemView.setBackgroundResource(R.drawable.cirlce_gray);
-        } else if (demoModel.type == YsnowsBaseModel.TYPE_CURRENT) {
+        } else if (demoModel.getType() == YsnowsBaseModel.TYPE_CURRENT) {
             holder.itemView.setBackgroundResource(R.drawable.cirlce_deep);
-        } else if (demoModel.type == YsnowsBaseModel.TYPE_PASTED) {
+        } else if (demoModel.getType() == YsnowsBaseModel.TYPE_PASTED) {
             holder.itemView.setBackgroundResource(R.drawable.cirlce_gray_deep);
         }
     }
@@ -74,7 +74,7 @@ public class DemoAdapter extends RecyclerView.Adapter<DemoAdapter.VH> {
     public class VH extends RecyclerView.ViewHolder {
         public VH(View itemView) {
             super(itemView);
-            RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams(200, 200);
+            RecyclerView.LayoutParams layoutParams = new RecyclerView.LayoutParams((int) YsnowsScrollListener.viewWidth, (int) YsnowsScrollListener.viewWidth);
             itemView.setLayoutParams(layoutParams);
         }
     }
