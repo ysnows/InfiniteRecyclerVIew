@@ -59,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
         //添加LinearSnapHelper
         linearSnapHelper = new LinearSnapHelper();
         linearSnapHelper.attachToRecyclerView(recyclerView);
-
         //添加滑动监听器
-        ysnowsScrollListener = new YsnowsScrollListener(recyclerView);
+        ysnowsScrollListener = new YsnowsScrollListener(recyclerView,linearSnapHelper);
         recyclerView.addOnScrollListener(ysnowsScrollListener);
         ysnowsScrollListener.addOnPositionSelectedListener(new YsnowsScrollListener.OnPositionSelectedListener() {
             @Override
             public void onSelected(int pos) {
-                Log.d("MainActivity", "pos:" + pos);
+//                linearSnapHelper.findTargetSnapPosition(linearLayoutManager,)
+                Log.d("TAG", pos + "");
 
             }
         });

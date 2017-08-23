@@ -2,6 +2,7 @@ package com.myapplication;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -20,16 +21,18 @@ public class YsnowsScrollListener extends RecyclerView.OnScrollListener {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private float screenHalf = 0;//屏幕一半的宽度
+    private LinearSnapHelper linearSnapHelper;
     public static float viewWidth = 200f;//itemView的宽度
     private float initDegree = 180f / viewWidth;//0~200,每段距离要走几度
     private OnPositionSelectedListener onPositionSelectedListener;//最终位置选中监听器
     private int totalScrollX = 0;//x轴总共滑动的距离;
 
-    public YsnowsScrollListener(RecyclerView recyclerView) {
+    public YsnowsScrollListener(RecyclerView recyclerView, LinearSnapHelper linearSnapHelper) {
         super();
         this.recyclerView = recyclerView;
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         screenHalf = UiUtils.getScreenWidthPixels(recyclerView.getContext()) / 2;
+        this.linearSnapHelper = linearSnapHelper;
     }
 
     @Override
@@ -37,7 +40,9 @@ public class YsnowsScrollListener extends RecyclerView.OnScrollListener {
         super.onScrollStateChanged(recyclerView, newState);
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             if (onPositionSelectedListener != null) {
-                onPositionSelectedListener.onSelected(getSelectedPosition());
+                View view = linearSnapHelper.findSnapView(linearLayoutManager);
+                int pos = linearLayoutManager.getPosition(view);
+                onPositionSelectedListener.onSelected(pos);
             }
         }
     }
