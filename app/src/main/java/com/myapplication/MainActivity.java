@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "TAG";
     private RecyclerView recyclerView;
     private LinearSnapHelper linearSnapHelper;
     private LinearLayoutManager linearLayoutManager;
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+
+        int emuiLeval = UiUtils.getEmuiLeval();
+        Log.d(TAG, "__" + emuiLeval);
+        Toast.makeText(this, "__" + emuiLeval, Toast.LENGTH_SHORT).show();
 
         //设置recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         linearSnapHelper = new LinearSnapHelper();
         linearSnapHelper.attachToRecyclerView(recyclerView);
         //添加滑动监听器
-        ysnowsScrollListener = new YsnowsScrollListener(recyclerView,linearSnapHelper);
+        ysnowsScrollListener = new YsnowsScrollListener(recyclerView, linearSnapHelper);
         recyclerView.addOnScrollListener(ysnowsScrollListener);
         ysnowsScrollListener.addOnPositionSelectedListener(new YsnowsScrollListener.OnPositionSelectedListener() {
             @Override

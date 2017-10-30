@@ -11,14 +11,21 @@ import android.widget.FrameLayout;
 
 import java.lang.reflect.Field;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
+
+import android.os.Environment;
+
 public class UiUtils {
+    private static int level;
+
     static public int getScreenWidthPixels(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
                 .getMetrics(dm);
         return dm.widthPixels;
     }
-
 
     static public int getScreenHeightPixels(Context context) {
         DisplayMetrics dm = new DisplayMetrics();
@@ -32,6 +39,7 @@ public class UiUtils {
      *
      * @param context
      * @param dip
+     *
      * @return
      */
     static public int dp2px(Context context, int dip) {
@@ -60,6 +68,7 @@ public class UiUtils {
      * 状态栏高度获取方法
      *
      * @param context
+     *
      * @return
      */
     public static int getStatusBarHeight(Context context) {
@@ -126,6 +135,7 @@ public class UiUtils {
      * @param size
      * @param colCount
      * @param rowHeight
+     *
      * @return
      */
 
@@ -145,6 +155,7 @@ public class UiUtils {
      * @param size
      * @param colCount
      * @param rowHeight
+     *
      * @return
      */
 
@@ -163,6 +174,7 @@ public class UiUtils {
      * @param size
      * @param colCount
      * @param rowHeight
+     *
      * @return
      */
     public static void setRVHeith(Context context, int size, int colCount, int rowHeight, View view) {
@@ -182,6 +194,7 @@ public class UiUtils {
      * @param size
      * @param colCount
      * @param rowHeightPx
+     *
      * @return
      */
     public static void setRVHeithWithPx(Context context, int size, int colCount, int rowHeightPx, View view) {
@@ -203,5 +216,49 @@ public class UiUtils {
 
     static public int dp2Px(Context context, float dip) {
         return (int) (dip * getScreenDensity(context) + 0.5f);
+    }
+
+
+    public static int getEmuiLeval() {
+        // Finals 2016-6-14 如果获取过了就不用再获取了，因为读取配置文件很慢
+        if (level > 0) {
+            return level;
+        }
+        Properties properties = new Properties();
+        File propFile = new File(Environment.getRootDirectory(), "build.prop");
+        FileInputStream fis = null;
+        if (propFile != null && propFile.exists()) {
+            try {
+                fis = new FileInputStream(propFile);
+                properties.load(fis);
+                fis.close();
+                fis = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+                }
+            }
+        }
+        if (properties.containsKey("ro.build.hw_emui_api_level")) {
+            String valueString = properties.getProperty("ro.build.hw_emui_api_level");
+            try {
+                level = Integer.parseInt(valueString);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return level;
+    }
+
+    public static void setRotionY(View view, float degree) {
+        if (getEmuiLeval() <= 0) {
+            view.setRotationY(degree);
+        }
     }
 }

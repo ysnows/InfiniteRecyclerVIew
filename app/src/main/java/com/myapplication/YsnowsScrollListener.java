@@ -85,9 +85,9 @@ public class YsnowsScrollListener extends RecyclerView.OnScrollListener {
                     }
                 }
                 float degree = distanceA * initDegree;
-                view.setRotationY(degree);
+                UiUtils.setRotionY(view, degree);
             } else {
-                view.setRotationY(0);
+                UiUtils.setRotionY(view, 0);
             }
         }
 
